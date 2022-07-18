@@ -5,62 +5,81 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { MatchResults } from "@stencil/router";
 export namespace Components {
-    interface AppHome {
+    interface AppBoard {
     }
-    interface AppProfile {
-        "match": MatchResults;
+    interface AppPlayArea {
     }
-    interface AppRoot {
+    interface AppScoreItem {
+        "disabled": boolean;
+        "label": string;
+        "score": number;
+    }
+    interface AppScores {
+        "rolled": boolean;
     }
 }
 declare global {
-    interface HTMLAppHomeElement extends Components.AppHome, HTMLStencilElement {
+    interface HTMLAppBoardElement extends Components.AppBoard, HTMLStencilElement {
     }
-    var HTMLAppHomeElement: {
-        prototype: HTMLAppHomeElement;
-        new (): HTMLAppHomeElement;
+    var HTMLAppBoardElement: {
+        prototype: HTMLAppBoardElement;
+        new (): HTMLAppBoardElement;
     };
-    interface HTMLAppProfileElement extends Components.AppProfile, HTMLStencilElement {
+    interface HTMLAppPlayAreaElement extends Components.AppPlayArea, HTMLStencilElement {
     }
-    var HTMLAppProfileElement: {
-        prototype: HTMLAppProfileElement;
-        new (): HTMLAppProfileElement;
+    var HTMLAppPlayAreaElement: {
+        prototype: HTMLAppPlayAreaElement;
+        new (): HTMLAppPlayAreaElement;
     };
-    interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {
+    interface HTMLAppScoreItemElement extends Components.AppScoreItem, HTMLStencilElement {
     }
-    var HTMLAppRootElement: {
-        prototype: HTMLAppRootElement;
-        new (): HTMLAppRootElement;
+    var HTMLAppScoreItemElement: {
+        prototype: HTMLAppScoreItemElement;
+        new (): HTMLAppScoreItemElement;
+    };
+    interface HTMLAppScoresElement extends Components.AppScores, HTMLStencilElement {
+    }
+    var HTMLAppScoresElement: {
+        prototype: HTMLAppScoresElement;
+        new (): HTMLAppScoresElement;
     };
     interface HTMLElementTagNameMap {
-        "app-home": HTMLAppHomeElement;
-        "app-profile": HTMLAppProfileElement;
-        "app-root": HTMLAppRootElement;
+        "app-board": HTMLAppBoardElement;
+        "app-play-area": HTMLAppPlayAreaElement;
+        "app-score-item": HTMLAppScoreItemElement;
+        "app-scores": HTMLAppScoresElement;
     }
 }
 declare namespace LocalJSX {
-    interface AppHome {
+    interface AppBoard {
     }
-    interface AppProfile {
-        "match"?: MatchResults;
+    interface AppPlayArea {
     }
-    interface AppRoot {
+    interface AppScoreItem {
+        "disabled"?: boolean;
+        "label"?: string;
+        "onScoreSelected"?: (event: CustomEvent<string>) => void;
+        "score"?: number;
+    }
+    interface AppScores {
+        "rolled"?: boolean;
     }
     interface IntrinsicElements {
-        "app-home": AppHome;
-        "app-profile": AppProfile;
-        "app-root": AppRoot;
+        "app-board": AppBoard;
+        "app-play-area": AppPlayArea;
+        "app-score-item": AppScoreItem;
+        "app-scores": AppScores;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "app-home": LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
-            "app-profile": LocalJSX.AppProfile & JSXBase.HTMLAttributes<HTMLAppProfileElement>;
-            "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
+            "app-board": LocalJSX.AppBoard & JSXBase.HTMLAttributes<HTMLAppBoardElement>;
+            "app-play-area": LocalJSX.AppPlayArea & JSXBase.HTMLAttributes<HTMLAppPlayAreaElement>;
+            "app-score-item": LocalJSX.AppScoreItem & JSXBase.HTMLAttributes<HTMLAppScoreItemElement>;
+            "app-scores": LocalJSX.AppScores & JSXBase.HTMLAttributes<HTMLAppScoresElement>;
         }
     }
 }

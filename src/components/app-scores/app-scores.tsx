@@ -1,4 +1,4 @@
-import { Component, h, Prop } from '@stencil/core';
+import { Component, h, Prop, State } from '@stencil/core';
 
 interface ScoreItem {
   label: string;
@@ -17,6 +17,7 @@ const SCORE_CARD = [
 })
 export class AppScores {
   @Prop() rolled: boolean;
+  @State() item: ScoreItem;
 
   render() {
     const { rolled } = this;

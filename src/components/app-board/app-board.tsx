@@ -20,6 +20,7 @@ function generateNumber() {
   shadow: true,
 })
 export class AppBoard {
+  @State() totalScore: number = 0;
   @State() turns: number = NUMBER_OF_TURNS;
   @State() dice: DieItem[] = [];
   @State() rolled: boolean = false;
@@ -54,7 +55,7 @@ export class AppBoard {
     return (
       <div>
         <header>
-          <h1>{0}</h1>
+          <h1>{this.totalScore}</h1>
           <em>Player name</em>
         </header>
 

@@ -8,8 +8,6 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface AppBoard {
     }
-    interface AppPlayArea {
-    }
     interface AppScoreItem {
         "disabled": boolean;
         "label": string;
@@ -26,12 +24,6 @@ declare global {
         prototype: HTMLAppBoardElement;
         new (): HTMLAppBoardElement;
     };
-    interface HTMLAppPlayAreaElement extends Components.AppPlayArea, HTMLStencilElement {
-    }
-    var HTMLAppPlayAreaElement: {
-        prototype: HTMLAppPlayAreaElement;
-        new (): HTMLAppPlayAreaElement;
-    };
     interface HTMLAppScoreItemElement extends Components.AppScoreItem, HTMLStencilElement {
     }
     var HTMLAppScoreItemElement: {
@@ -46,15 +38,12 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "app-board": HTMLAppBoardElement;
-        "app-play-area": HTMLAppPlayAreaElement;
         "app-score-item": HTMLAppScoreItemElement;
         "app-scores": HTMLAppScoresElement;
     }
 }
 declare namespace LocalJSX {
     interface AppBoard {
-    }
-    interface AppPlayArea {
     }
     interface AppScoreItem {
         "disabled"?: boolean;
@@ -67,7 +56,6 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "app-board": AppBoard;
-        "app-play-area": AppPlayArea;
         "app-score-item": AppScoreItem;
         "app-scores": AppScores;
     }
@@ -77,7 +65,6 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "app-board": LocalJSX.AppBoard & JSXBase.HTMLAttributes<HTMLAppBoardElement>;
-            "app-play-area": LocalJSX.AppPlayArea & JSXBase.HTMLAttributes<HTMLAppPlayAreaElement>;
             "app-score-item": LocalJSX.AppScoreItem & JSXBase.HTMLAttributes<HTMLAppScoreItemElement>;
             "app-scores": LocalJSX.AppScores & JSXBase.HTMLAttributes<HTMLAppScoresElement>;
         }

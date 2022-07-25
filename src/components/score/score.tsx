@@ -1,11 +1,11 @@
 import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
 
 @Component({
-  tag: 'app-score-item',
-  styleUrl: 'app-score-item.css',
+  tag: 'app-score',
+  styleUrl: 'score.css',
   scoped: true,
 })
-export class AppScoreItem {
+export class Score {
   @Prop() score: number;
   @Prop() label: string;
   @Prop() disabled: boolean;

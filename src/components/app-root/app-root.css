@@ -6,6 +6,14 @@ main {
   background: #eee;
 }
 
+section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  grid-auto-flow: column;
+  border: solid;
+}
+
 footer {
   text-align: center;
   grid-column: 1 / -1;

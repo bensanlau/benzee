@@ -1,0 +1,5 @@
+*.yaml
+src/components.d.ts
+CHANGELOG.md
+src/hardcoded/index.ts
+src/.well-known

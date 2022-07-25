@@ -8,6 +8,11 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface AppBoard {
     }
+    interface AppDie {
+        "locked": boolean;
+        "position": number;
+        "value": number;
+    }
     interface AppScoreItem {
         "disabled": boolean;
         "label": string;
@@ -24,6 +29,12 @@ declare global {
         prototype: HTMLAppBoardElement;
         new (): HTMLAppBoardElement;
     };
+    interface HTMLAppDieElement extends Components.AppDie, HTMLStencilElement {
+    }
+    var HTMLAppDieElement: {
+        prototype: HTMLAppDieElement;
+        new (): HTMLAppDieElement;
+    };
     interface HTMLAppScoreItemElement extends Components.AppScoreItem, HTMLStencilElement {
     }
     var HTMLAppScoreItemElement: {
@@ -38,6 +49,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "app-board": HTMLAppBoardElement;
+        "app-die": HTMLAppDieElement;
         "app-score-item": HTMLAppScoreItemElement;
         "app-scores": HTMLAppScoresElement;
     }
@@ -45,10 +57,16 @@ declare global {
 declare namespace LocalJSX {
     interface AppBoard {
     }
+    interface AppDie {
+        "locked"?: boolean;
+        "onLockDie"?: (event: CustomEvent<object>) => void;
+        "position"?: number;
+        "value"?: number;
+    }
     interface AppScoreItem {
         "disabled"?: boolean;
         "label"?: string;
-        "onScoreSelected"?: (event: CustomEvent<string>) => void;
+        "onScoreSelected"?: (event: CustomEvent<boolean>) => void;
         "score"?: number;
     }
     interface AppScores {
@@ -56,6 +74,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "app-board": AppBoard;
+        "app-die": AppDie;
         "app-score-item": AppScoreItem;
         "app-scores": AppScores;
     }
@@ -65,6 +84,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "app-board": LocalJSX.AppBoard & JSXBase.HTMLAttributes<HTMLAppBoardElement>;
+            "app-die": LocalJSX.AppDie & JSXBase.HTMLAttributes<HTMLAppDieElement>;
             "app-score-item": LocalJSX.AppScoreItem & JSXBase.HTMLAttributes<HTMLAppScoreItemElement>;
             "app-scores": LocalJSX.AppScores & JSXBase.HTMLAttributes<HTMLAppScoresElement>;
         }

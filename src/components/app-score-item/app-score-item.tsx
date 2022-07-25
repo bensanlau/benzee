@@ -10,9 +10,9 @@ export class AppScoreItem {
   @Prop() label: string;
   @Prop() disabled: boolean;
 
-  @Event() scoreSelected: EventEmitter<string>;
+  @Event() scoreSelected: EventEmitter<boolean>;
   handleScoreSelect() {
-    this.scoreSelected.emit();
+    this.scoreSelected.emit(true);
   }
 
   render() {

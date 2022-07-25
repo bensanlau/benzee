@@ -1,18 +1,19 @@
 import { Component, h, State, Listen } from '@stencil/core';
 
-interface DieItem {
-  value: number;
-  locked: boolean;
-}
-
 const NUMBER_OF_TURNS: number = 3;
 const NUMBER_OF_DICE: number = 5;
+const UNROLLED_DIE: DieItem = {
+  value: null,
+  locked: false,
+}
 
 function generateNumber() {
   return 1 + Math.floor(Math.random() * 6);
 }
-
-// type Dice = [DieItem, DieItem, DieItem, DieItem, DieItem];
+export interface DieItem {
+  value: number;
+  locked: boolean;
+}
 
 @Component({
   tag: 'app-board',
@@ -20,9 +21,9 @@ function generateNumber() {
   shadow: true,
 })
 export class AppBoard {
-  @State() totalScore: number = 0;
+  @State() total: number = 0;
   @State() turns: number = NUMBER_OF_TURNS;
-  @State() dice: DieItem[] = [];
+  @State() dice: DieItem[] = new Array(NUMBER_OF_DICE).fill(UNROLLED_DIE);
   @State() rolled: boolean = false;
   @State() scoreSelected: boolean = false;
 
@@ -31,31 +32,45 @@ export class AppBoard {
     this.scoreSelected = true;
   }
 
-  roll() {
-    const dice = [];
-    for(let i=0; i<NUMBER_OF_DICE; i++) {
-      dice.push({
-        value: generateNumber(),
-        locked: false,
-      })
-    }
+  @Listen('lockDie')
+  handleLockDie(event: CustomEvent){
+    const { position, locked } = event.detail;
+    const dice = this.dice;
+    dice[position].locked = !locked;
+    this.dice = [];
     this.dice = dice;
-    this.turns = this.turns - 1;
+  }
 
+  roll() {
+    this.dice = this.dice.map(() => ({
+      value: generateNumber(),
+      locked: false,
+    }));
+
+    this.turns = this.turns - 1;
     this.rolled = true;
   }
 
-  play() {
+  lockDie(event: Event) {
+    console.log(event);
+  }
+
+  reset() {
     this.turns = NUMBER_OF_TURNS;
     this.scoreSelected = false;
     this.rolled = false;
+    this.dice.fill(UNROLLED_DIE);
+  }
+
+  play() {
+    this.reset();
   }
 
   render() {
     return (
       <div>
         <header>
-          <h1>{this.totalScore}</h1>
+          <h1>{this.total}</h1>
           <em>Player name</em>
         </header>
 
@@ -66,12 +81,15 @@ export class AppBoard {
 
           <footer>
             <div class="dice">
-              {this.dice.map((die: DieItem) =>
-                <div class="die">
-                  {die.value}
-                </div>
+              {this.dice.map((die: DieItem, index) =>
+                <app-die
+                  value={die.value}
+                  locked={die.locked}
+                  position={index}
+                />
               )}
             </div>
+
             <button
               onClick={() => this.roll()}
               disabled={this.turns === 0}

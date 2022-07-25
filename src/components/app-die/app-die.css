@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.die {
+  border: solid;
+  padding: 20px;
+  display: flex;
+  place-items: center;
+}
+
+.die--locked {
+  background-color: #ccc;
+  border-color: red;
+}

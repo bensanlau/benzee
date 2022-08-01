@@ -1,4 +1,5 @@
 import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
+import store from '../../store'
 
 @Component({
   tag: 'app-score',
@@ -6,30 +7,37 @@ import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
   scoped: true,
 })
 export class Score {
-  @Prop() score: number;
+  @Prop() score: number = 0;
   @Prop() label: string;
   @Prop() disabled: boolean;
+  @Prop() position: number;
 
-  @Event() scoreSelected: EventEmitter<boolean>;
-  handleScoreSelect() {
-    this.scoreSelected.emit(true);
+  @Event() selectScore: EventEmitter<boolean>;
+  handleSelectScore() {
+    this.selectScore.emit(true);
   }
 
   render() {
-    const { label, score, disabled } = this;
+    const { label, score, position } = this;
     return (
       <Host>
         <div>{label}</div>
-        <label htmlFor={label.replace(' ', '-')}>
-          {score}
-          <input type="radio" name="score"
-            disabled={disabled}
-            id={label.replace(' ', '-')}
-            value={label.replace(' ', '-')}
-            onChange={() => this.handleScoreSelect()}
-            checked={this.disabled ? false : null}
-          />
-        </label>
+        { position === 6 ? (
+          <div class="score">0</div>
+        ) : (
+          <div>
+            <input type="radio" name="score"
+              disabled={!store.board.roundStarted}
+              checked={store.board.roundStarted ? false : null}
+              id={label.replace(' ', '-')}
+              value={label.replace(' ', '-')}
+              onChange={() => this.handleSelectScore()}
+              />
+            <label htmlFor={label.replace(' ', '-')}>
+              {score}
+            </label>
+          </div>
+        )}
       </Host>
     );
   }

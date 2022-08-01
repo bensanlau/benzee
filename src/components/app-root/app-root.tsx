@@ -1,23 +1,10 @@
 import { Component, h, State, Listen } from '@stencil/core';
-
-const NUMBER_OF_ROLLS: number = 3;
-const NUMBER_OF_DICE: number = 5;
-const UNROLLED_DIE: DieItem = {
-  value: null,
-  locked: false,
-}
-const BOARD = [
-  '1', '2', '3', '4', '5', '6', 'Bonus', // lower section
-  '3x', '4x', 'full house', 'small straight', 'big straight', 'benzee', '?' // upper section
-];
+import store from '../../store';
+import { NUMBER_OF_ROLLS } from '../../global/constants';
+import { DieItem } from '../die/die';
 
 function generateNumber() {
   return 1 + Math.floor(Math.random() * 6);
-}
-
-export interface DieItem {
-  value: number;
-  locked: boolean;
 }
 
 @Component({
@@ -26,46 +13,38 @@ export interface DieItem {
   shadow: true,
 })
 export class AppRoot {
-  @State() total: number = 0;
+  @State() score: number = 0;
   @State() rolls: number = NUMBER_OF_ROLLS;
-  @State() dice: DieItem[] = new Array(NUMBER_OF_DICE).fill(UNROLLED_DIE);
-  @State() rolled: boolean = false;
-  @State() scoreSelected: boolean = false;
+  @State() dice: DieItem[];
+  @State() scoreSelected: boolean;
+  
+  componentWillLoad() {
+    this.dice = store.dice.dice;
+  }
 
-  @Listen('scoreSelected')
-  handleScoreSelect(){
+  @Listen('selectScore')
+  handleSelectScore(){
     this.scoreSelected = true;
   }
 
-  @Listen('lockDie')
-  // handleLockDie(event: CustomEvent<object>){
-  handleLockDie(event: CustomEvent){
-    const { position, locked } = event.detail;
-    this.dice = this.dice.map((die: DieItem, index) => {
-      return {
-        value: die.value,
-        locked: position === index ? locked : die.locked,
-      }
-    });
-  }
-
   roll() {
+    this.dice = store.dice.dice;
     this.dice = this.dice.map((die: DieItem) => {
       return {
         value: die.locked ? die.value : generateNumber(),
         locked: die.locked,
       }
     });
-
+    store.dice.setDice(this.dice);
     this.rolls = this.rolls - 1;
-    this.rolled = true;
+    store.board.startRound();
   }
 
   reset() {
     this.rolls = NUMBER_OF_ROLLS;
     this.scoreSelected = false;
-    this.rolled = false;
-    this.dice.fill(UNROLLED_DIE);
+    store.board.endRound();
+    store.dice.resetDice();
   }
 
   play() {
@@ -76,16 +55,12 @@ export class AppRoot {
     return (
       <div>
         <header>
-          <h1>{this.total}</h1>
+          <h1>{this.score}</h1>
           <em>Player name</em>
         </header>
 
         <main>
-          <section>
-            {BOARD.map((item) =>
-              <app-score disabled={!this.rolled} label={item} />
-            )}
-          </section>
+          <app-board />
 
           <footer>
             <div class="dice">

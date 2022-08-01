@@ -5,8 +5,10 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { DieItem } from "./components/app-root/app-root";
+import { DieItem } from "./components/die/die";
 export namespace Components {
+    interface AppBoard {
+    }
     interface AppDie {
         "die": DieItem;
         "locked": boolean;
@@ -17,10 +19,17 @@ export namespace Components {
     interface AppScore {
         "disabled": boolean;
         "label": string;
+        "position": number;
         "score": number;
     }
 }
 declare global {
+    interface HTMLAppBoardElement extends Components.AppBoard, HTMLStencilElement {
+    }
+    var HTMLAppBoardElement: {
+        prototype: HTMLAppBoardElement;
+        new (): HTMLAppBoardElement;
+    };
     interface HTMLAppDieElement extends Components.AppDie, HTMLStencilElement {
     }
     var HTMLAppDieElement: {
@@ -40,16 +49,18 @@ declare global {
         new (): HTMLAppScoreElement;
     };
     interface HTMLElementTagNameMap {
+        "app-board": HTMLAppBoardElement;
         "app-die": HTMLAppDieElement;
         "app-root": HTMLAppRootElement;
         "app-score": HTMLAppScoreElement;
     }
 }
 declare namespace LocalJSX {
+    interface AppBoard {
+    }
     interface AppDie {
         "die"?: DieItem;
         "locked"?: boolean;
-        "onLockDie"?: (event: CustomEvent<any>) => void;
         "position"?: number;
     }
     interface AppRoot {
@@ -57,10 +68,12 @@ declare namespace LocalJSX {
     interface AppScore {
         "disabled"?: boolean;
         "label"?: string;
-        "onScoreSelected"?: (event: CustomEvent<boolean>) => void;
+        "onSelectScore"?: (event: CustomEvent<boolean>) => void;
+        "position"?: number;
         "score"?: number;
     }
     interface IntrinsicElements {
+        "app-board": AppBoard;
         "app-die": AppDie;
         "app-root": AppRoot;
         "app-score": AppScore;
@@ -70,6 +83,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "app-board": LocalJSX.AppBoard & JSXBase.HTMLAttributes<HTMLAppBoardElement>;
             "app-die": LocalJSX.AppDie & JSXBase.HTMLAttributes<HTMLAppDieElement>;
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
             "app-score": LocalJSX.AppScore & JSXBase.HTMLAttributes<HTMLAppScoreElement>;

@@ -1,5 +1,9 @@
-import { Component, h, Prop, Event, EventEmitter } from '@stencil/core';
-import { DieItem } from '../app-root/app-root';
+import { Component, h, Prop } from '@stencil/core';
+import store from '../../store';
+export interface DieItem {
+  value: number;
+  locked: boolean;
+}
 
 @Component({
   tag: 'app-die',
@@ -11,34 +15,30 @@ export class Die {
   @Prop() die: DieItem;
   @Prop({ mutable: true }) locked: boolean;
 
-  // @Event() lockDie: EventEmitter<object>;
-  @Event() lockDie: EventEmitter;
-  handleLockDie(value: number, position: number, locked: boolean) {
+  lock() {
+    const { die: { value }, locked, position } = this;
+    let dice: DieItem[] = store.dice.dice;
+
     if (value) {
-      this.locked = locked;
-
-      this.lockDie.emit({
-        position: position,
-        locked: locked,
-      });
+      this.locked = !locked;
+      dice = dice.map((die: DieItem, index) => ({
+        value: die.value,
+        locked: position === index ? !locked : die.locked,
+      }));
+      store.dice.setDice(dice);
     }
-  }
-
-  componentWillLoad() {
-    this.locked = this.die.locked;
   }
   
   render() {
-    const { position, locked } = this;
-    const { value } = this.die;
+    const { die: { value }, locked } = this;
 
     return (
-      <div class={`die ${locked ? 'die--locked' : ''}`}
-        onClick={() => this.handleLockDie(value, position, !locked)}
+      <div
+        class={`die ${locked ? 'die--locked' : ''}`}
+        onClick={() => this.lock()}
       >
-        { value } 
+        { value }
       </div>
     );
   }
-
 }

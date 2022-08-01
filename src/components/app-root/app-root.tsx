@@ -18,7 +18,7 @@ export class AppRoot {
   @State() dice: DieItem[];
   @State() scoreSelected: boolean;
   
-  componentWillLoad() {
+  componentWillRender() {
     this.dice = store.dice.dice;
   }
 

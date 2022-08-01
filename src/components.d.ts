@@ -11,7 +11,6 @@ export namespace Components {
     }
     interface AppDie {
         "die": DieItem;
-        "locked": boolean;
         "position": number;
     }
     interface AppRoot {
@@ -60,7 +59,6 @@ declare namespace LocalJSX {
     }
     interface AppDie {
         "die"?: DieItem;
-        "locked"?: boolean;
         "position"?: number;
     }
     interface AppRoot {

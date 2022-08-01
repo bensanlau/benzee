@@ -1,4 +1,4 @@
-import { Component, h, Prop } from '@stencil/core';
+import { Component, h, Prop, State } from '@stencil/core';
 import store from '../../store';
 export interface DieItem {
   value: number;
@@ -13,7 +13,7 @@ export interface DieItem {
 export class Die {
   @Prop() position: number;
   @Prop() die: DieItem;
-  @Prop({ mutable: true }) locked: boolean;
+  @State() locked: boolean;
 
   lock() {
     const { die: { value }, locked, position } = this;
@@ -28,7 +28,13 @@ export class Die {
       store.dice.setDice(dice);
     }
   }
-  
+
+  componentWillUpdate() {
+    if (!this.die.value) {
+      this.locked = false;
+    }
+  }
+
   render() {
     const { die: { value }, locked } = this;
 

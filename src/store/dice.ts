@@ -7,12 +7,19 @@ const UNROLLED_DIE: DieItem = {
   locked: false,
 }
 
+// type FixedSizeArray<N extends number, T> = N extends 0 ? never[] : {
+//   0: T;
+//   length: N;
+// } & ReadonlyArray<T>;
+
 interface StateType {
   dice: DieItem[]
+  // dice: FixedSizeArray<number, DieItem[]>
 }
 
 const diceStore = () => {
   const store = createStore<StateType>({
+    // dice: new Array(NUMBER_OF_DICE).fill(UNROLLED_DIE)
     dice: new Array(NUMBER_OF_DICE).fill(UNROLLED_DIE)
   });
 

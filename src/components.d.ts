@@ -5,86 +5,70 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { CategoryItem } from "./components/category/category";
 import { DieItem } from "./components/die/die";
 export namespace Components {
-    interface AppBoard {
-    }
-    interface AppDie {
-        "die": DieItem;
-        "position": number;
-    }
-    interface AppRoot {
-    }
-    interface AppScore {
+    interface BzCategory {
         "disabled": boolean;
-        "label": string;
-        "position": number;
-        "score": number;
+        "item": CategoryItem;
+    }
+    interface BzDie {
+        "die": DieItem;
+        "index": number;
+    }
+    interface BzGame {
     }
 }
 declare global {
-    interface HTMLAppBoardElement extends Components.AppBoard, HTMLStencilElement {
+    interface HTMLBzCategoryElement extends Components.BzCategory, HTMLStencilElement {
     }
-    var HTMLAppBoardElement: {
-        prototype: HTMLAppBoardElement;
-        new (): HTMLAppBoardElement;
+    var HTMLBzCategoryElement: {
+        prototype: HTMLBzCategoryElement;
+        new (): HTMLBzCategoryElement;
     };
-    interface HTMLAppDieElement extends Components.AppDie, HTMLStencilElement {
+    interface HTMLBzDieElement extends Components.BzDie, HTMLStencilElement {
     }
-    var HTMLAppDieElement: {
-        prototype: HTMLAppDieElement;
-        new (): HTMLAppDieElement;
+    var HTMLBzDieElement: {
+        prototype: HTMLBzDieElement;
+        new (): HTMLBzDieElement;
     };
-    interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {
+    interface HTMLBzGameElement extends Components.BzGame, HTMLStencilElement {
     }
-    var HTMLAppRootElement: {
-        prototype: HTMLAppRootElement;
-        new (): HTMLAppRootElement;
-    };
-    interface HTMLAppScoreElement extends Components.AppScore, HTMLStencilElement {
-    }
-    var HTMLAppScoreElement: {
-        prototype: HTMLAppScoreElement;
-        new (): HTMLAppScoreElement;
+    var HTMLBzGameElement: {
+        prototype: HTMLBzGameElement;
+        new (): HTMLBzGameElement;
     };
     interface HTMLElementTagNameMap {
-        "app-board": HTMLAppBoardElement;
-        "app-die": HTMLAppDieElement;
-        "app-root": HTMLAppRootElement;
-        "app-score": HTMLAppScoreElement;
+        "bz-category": HTMLBzCategoryElement;
+        "bz-die": HTMLBzDieElement;
+        "bz-game": HTMLBzGameElement;
     }
 }
 declare namespace LocalJSX {
-    interface AppBoard {
-    }
-    interface AppDie {
-        "die"?: DieItem;
-        "position"?: number;
-    }
-    interface AppRoot {
-    }
-    interface AppScore {
+    interface BzCategory {
         "disabled"?: boolean;
-        "label"?: string;
-        "onSelectScore"?: (event: CustomEvent<boolean>) => void;
-        "position"?: number;
-        "score"?: number;
+        "item"?: CategoryItem;
+        "onSelectScore"?: (event: CustomEvent<string>) => void;
+    }
+    interface BzDie {
+        "die"?: DieItem;
+        "index"?: number;
+    }
+    interface BzGame {
     }
     interface IntrinsicElements {
-        "app-board": AppBoard;
-        "app-die": AppDie;
-        "app-root": AppRoot;
-        "app-score": AppScore;
+        "bz-category": BzCategory;
+        "bz-die": BzDie;
+        "bz-game": BzGame;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "app-board": LocalJSX.AppBoard & JSXBase.HTMLAttributes<HTMLAppBoardElement>;
-            "app-die": LocalJSX.AppDie & JSXBase.HTMLAttributes<HTMLAppDieElement>;
-            "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
-            "app-score": LocalJSX.AppScore & JSXBase.HTMLAttributes<HTMLAppScoreElement>;
+            "bz-category": LocalJSX.BzCategory & JSXBase.HTMLAttributes<HTMLBzCategoryElement>;
+            "bz-die": LocalJSX.BzDie & JSXBase.HTMLAttributes<HTMLBzDieElement>;
+            "bz-game": LocalJSX.BzGame & JSXBase.HTMLAttributes<HTMLBzGameElement>;
         }
     }
 }

@@ -6,33 +6,30 @@ export interface DieItem {
 }
 
 @Component({
-  tag: 'app-die',
+  tag: 'bz-die',
   styleUrl: 'die.css',
   shadow: true,
 })
 export class Die {
-  @Prop() position: number;
+  @Prop() index: number;
   @Prop() die: DieItem;
   @State() locked: boolean;
 
   lock() {
-    const { die: { value }, locked, position } = this;
-    let dice: DieItem[] = store.dice.dice;
+    const { index } = this;
+    const { value, locked } = store.dice.dice[index];
 
     if (value) {
       this.locked = !locked;
-      dice = dice.map((die: DieItem, index) => ({
-        value: die.value,
-        locked: position === index ? !locked : die.locked,
-      }));
-      store.dice.setDice(dice);
+      store.dice.dice[index] = {
+        value: value,
+        locked: !locked,
+      }
     }
   }
 
   componentWillUpdate() {
-    if (!this.die.value) {
-      this.locked = false;
-    }
+    this.locked = store.dice.dice[this.index].locked;
   }
 
   render() {

@@ -1,4 +1,5 @@
 :host {
+  grid-area: var(--grid-position);
   display: grid;
   align-items: center;
   grid-template-columns: repeat(2, 1fr);
@@ -41,4 +42,10 @@ label {
 
 input[type=radio]:checked + label {
   border-color: red;
+}
+
+input.played + label {
+  border-color: green;
+  border-width: 2px;
+  color: gray;
 }

@@ -1,11 +1,12 @@
 import { Component, Host, h, Prop, Element, Event, EventEmitter, State } from '@stencil/core';
-import store from '../../store';
+import { gameStore } from '../../store/store';
 
 export interface CategoryItem {
   id: string;
   label: string;
   score: number;
   played: boolean;
+  value?: number;
 }
 
 @Component({
@@ -16,7 +17,7 @@ export interface CategoryItem {
 export class Category {
   @Prop() item: CategoryItem;
   @Prop() disabled: boolean;
-  @State() score: number = 0;
+  @State() score: number;
   @Element() category: HTMLElement;
 
   @Event() selectScore: EventEmitter<string>;
@@ -29,10 +30,6 @@ export class Category {
   componentWillLoad() {
     this.category.style.setProperty('--grid-position', `${this.item.id}`);
   }
-  
-  componentWillRender() {
-
-  }
 
   render() {
     const { label, score, played } = this.item;
@@ -41,8 +38,8 @@ export class Category {
       <Host>
         <div>{label}</div>
         <input type="radio" name="score"
-          disabled={!store.board.roundStarted || played}
-          checked={store.board.roundStarted ? false : null}
+          disabled={!gameStore.get('roundstart') || played}
+          checked={gameStore.get('roundstart') ? false : null}
           id={label.replace(' ', '-')}
           value={label.replace(' ', '-')}
           onChange={() => this.handleSelectScore()}

@@ -1,5 +1,5 @@
 import { Component, h, Prop, State } from '@stencil/core';
-import store from '../../store';
+import { diceStore } from '../../store/store';
 export interface DieItem {
   value: number;
   locked: boolean;
@@ -17,11 +17,11 @@ export class Die {
 
   lock() {
     const { index } = this;
-    const { value, locked } = store.dice.dice[index];
+    const { value, locked } = diceStore.get('dice')[index];
 
     if (value) {
       this.locked = !locked;
-      store.dice.dice[index] = {
+      diceStore.get('dice')[index] = {
         value: value,
         locked: !locked,
       }
@@ -29,7 +29,7 @@ export class Die {
   }
 
   componentWillUpdate() {
-    this.locked = store.dice.dice[this.index].locked;
+    this.locked = diceStore.get('dice')[this.index].locked;
   }
 
   render() {

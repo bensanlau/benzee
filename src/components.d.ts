@@ -5,62 +5,70 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { MatchResults } from "@stencil/router";
+import { CategoryItem } from "./components/category/category";
+import { DieItem } from "./components/die/die";
 export namespace Components {
-    interface AppHome {
+    interface BzCategory {
+        "disabled": boolean;
+        "item": CategoryItem;
     }
-    interface AppProfile {
-        "match": MatchResults;
+    interface BzDie {
+        "die": DieItem;
+        "index": number;
     }
-    interface AppRoot {
+    interface BzGame {
     }
 }
 declare global {
-    interface HTMLAppHomeElement extends Components.AppHome, HTMLStencilElement {
+    interface HTMLBzCategoryElement extends Components.BzCategory, HTMLStencilElement {
     }
-    var HTMLAppHomeElement: {
-        prototype: HTMLAppHomeElement;
-        new (): HTMLAppHomeElement;
+    var HTMLBzCategoryElement: {
+        prototype: HTMLBzCategoryElement;
+        new (): HTMLBzCategoryElement;
     };
-    interface HTMLAppProfileElement extends Components.AppProfile, HTMLStencilElement {
+    interface HTMLBzDieElement extends Components.BzDie, HTMLStencilElement {
     }
-    var HTMLAppProfileElement: {
-        prototype: HTMLAppProfileElement;
-        new (): HTMLAppProfileElement;
+    var HTMLBzDieElement: {
+        prototype: HTMLBzDieElement;
+        new (): HTMLBzDieElement;
     };
-    interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {
+    interface HTMLBzGameElement extends Components.BzGame, HTMLStencilElement {
     }
-    var HTMLAppRootElement: {
-        prototype: HTMLAppRootElement;
-        new (): HTMLAppRootElement;
+    var HTMLBzGameElement: {
+        prototype: HTMLBzGameElement;
+        new (): HTMLBzGameElement;
     };
     interface HTMLElementTagNameMap {
-        "app-home": HTMLAppHomeElement;
-        "app-profile": HTMLAppProfileElement;
-        "app-root": HTMLAppRootElement;
+        "bz-category": HTMLBzCategoryElement;
+        "bz-die": HTMLBzDieElement;
+        "bz-game": HTMLBzGameElement;
     }
 }
 declare namespace LocalJSX {
-    interface AppHome {
+    interface BzCategory {
+        "disabled"?: boolean;
+        "item"?: CategoryItem;
+        "onSelectScore"?: (event: CustomEvent<string>) => void;
     }
-    interface AppProfile {
-        "match"?: MatchResults;
+    interface BzDie {
+        "die"?: DieItem;
+        "index"?: number;
     }
-    interface AppRoot {
+    interface BzGame {
     }
     interface IntrinsicElements {
-        "app-home": AppHome;
-        "app-profile": AppProfile;
-        "app-root": AppRoot;
+        "bz-category": BzCategory;
+        "bz-die": BzDie;
+        "bz-game": BzGame;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "app-home": LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
-            "app-profile": LocalJSX.AppProfile & JSXBase.HTMLAttributes<HTMLAppProfileElement>;
-            "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
+            "bz-category": LocalJSX.BzCategory & JSXBase.HTMLAttributes<HTMLBzCategoryElement>;
+            "bz-die": LocalJSX.BzDie & JSXBase.HTMLAttributes<HTMLBzDieElement>;
+            "bz-game": LocalJSX.BzGame & JSXBase.HTMLAttributes<HTMLBzGameElement>;
         }
     }
 }

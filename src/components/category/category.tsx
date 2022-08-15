@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, Element, Event, EventEmitter, State } from '@stencil/core';
-import { gameStore } from '../../store/store';
+import { diceStore, gameStore } from '../../store/store';
 
 export interface CategoryItem {
   id: string;
@@ -26,7 +26,7 @@ export class Category {
       this.selectScore.emit(this.item.id);
     }
   }
-  
+
   componentWillLoad() {
     this.category.style.setProperty('--grid-position', `${this.item.id}`);
   }
@@ -47,6 +47,9 @@ export class Category {
           />
         <label htmlFor={label.replace(' ', '-')}>
           {score}
+          {gameStore.get('benzeed') && Object.keys(diceStore.get('duplicates')).length === 1 ? (
+            <span>+50</span>
+          ) : null }
         </label>
       </Host>
     );

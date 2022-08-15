@@ -17,10 +17,7 @@ export class Game {
   @State() points: number = 0;
   @State() lowerPoints: number = 0;
   @State() rolls: number = NUMBER_OF_ROLLS;
-  @State() dice: DieItem[];
-  @State() board: CategoryItem[];
   @State() scoreSelected: string;
-  @State() duplicates: [];
 
   @Listen('selectScore')
   handleSelectScore(score: CustomEvent){
@@ -30,7 +27,7 @@ export class Game {
   roll(): void {
     diceStore.set('dice', diceStore.get('dice').map((die: DieItem) => ({
       ...die,
-      value: die.locked ? die.value : generateNumber(),
+      value: gameStore.get('godmode') ? 6 : die.locked ? die.value : generateNumber(),
     })))
 
     boardStore.set('board', boardStore.get('board').map((category: CategoryItem) => ({ 
@@ -40,6 +37,9 @@ export class Game {
 
     gameStore.set('roundstart', true);
     this.rolls = this.rolls - 1;
+
+    console.log(gameStore.get('benzeed'));
+    console.log(diceStore.get('duplicates'));
   }
 
   reset(): void {
@@ -57,38 +57,40 @@ export class Game {
 
   play(): void {
     boardStore.set('board', boardStore.get('board').map((category: CategoryItem) => {
-      if (category.id === this.scoreSelected) {
-        this.points = this.points + category.score;
-
-        if (category.value) {
-          this.lowerPoints = this.lowerPoints + category.score;
-        }
-      }
-
-      if (!gameStore.get('bonus_added') && this.lowerPoints >= LOWER_TOTAL) {
-        gameStore.set('bonus_added', true);
-        this.points = this.points + LOWER_BONUS;
-      }
-
       return { 
         ...category,
         played: category.id === this.scoreSelected ? true : category.played,
       }
     }));
 
+    const category = Object.entries(boardStore.get('board')).find(item => item[1].id === this.scoreSelected)[1];
+    this.points = this.points + category.score;
+    if (category.value) {
+      this.lowerPoints = this.lowerPoints + category.score;
+    }
+
+    if (!gameStore.get('bonus_added') && this.lowerPoints >= LOWER_TOTAL) {
+      gameStore.set('bonus_added', true);
+      this.points = this.points + LOWER_BONUS;
+    }
+
+    if (!gameStore.get('benzeed') && category.id === 'benzee' && category.score === 50) {
+      gameStore.set('benzeed', true);
+    }
+
     this.reset();
   }
 
   getDuplicates(numOfDupes: number, exact: boolean = false): boolean {
     if (exact) {
-      return Object.values(this.duplicates).some(item => item === numOfDupes);
+      return Object.values(diceStore.get('duplicates')).some(item => item === numOfDupes);
     } else {
-      return Object.values(this.duplicates).some(item => item >= numOfDupes);
+      return Object.values(diceStore.get('duplicates')).some(item => item >= numOfDupes);
     }
   }
 
   getDuplicatesByValue(value: number): number {
-    const valueFound = Object.entries(this.duplicates).find((item) => {
+    const valueFound = Object.entries(diceStore.get('duplicates')).find((item) => {
       return value === parseInt(item[0]);
     });
 
@@ -101,7 +103,7 @@ export class Game {
 
   calculateStraight(seqLength: number): boolean {
     let tally = 0;
-    const set = Object.keys(this.duplicates).map(key => parseInt(key));
+    const set = Object.keys(diceStore.get('duplicates')).map(key => parseInt(key));
     set.map((item, index) => {
       if (index + 1 <= set.length) {
         tally += set[index + 1] - item === 1 ? 1 : 0;
@@ -112,9 +114,23 @@ export class Game {
   }
 
   calculateScore(category: CategoryItem): number {
-    this.duplicates = diceStore.get('dice').reduce((acc, {value}) => (
+    diceStore.set('duplicates', diceStore.get('dice').reduce((acc, {value}) => (
       {...acc, [value]: (acc[value] || 0) + 1}
-    ), {});
+    ), {}));
+
+    if (gameStore.get('godmode')) {
+      switch(category.id) {
+        case 'benzee': return 50;
+        case 'chance':
+        case 'three-kind':
+        case 'four-kind': return 30;
+        case 'fh': return 25;
+        case 'sm-st': return 30;
+        case 'lg-st': return 40;
+        default:
+          return category.value * 5;
+      }
+    }
 
     switch(category.id) {
       case 'benzee':
@@ -137,23 +153,7 @@ export class Game {
   }
 
   handleGod() {
-    gameStore.set('godmode', true);
-  }
-
-  godmode() {
-    
-  }
-
-  renderLowerPoints() {
-    // if (this.lowerPoints >= LOWER_TOTAL) {
-    //   this.points = this.points + LOWER_BONUS;
-    // }
-
-    // if (this.lowerPoints >= LOWER_TOTAL) {
-
-    // } else {
-    //   return (<span>{this.lowerPoints}</span> / {LOWER_TOTAL})
-    // }
+    gameStore.set('godmode', !gameStore.get('godmode'));
   }
 
   render() {

@@ -11,6 +11,7 @@ const UNROLLED_DIE: DieItem = {
 export const gameStore = createStore({
   roundstart: false,
   bonus_added: false,
+  benzeed: false,
   godmode: false,
 });
 
@@ -20,5 +21,6 @@ export const boardStore = createStore({
 
 export const diceStore = createStore({
   dice: new Array(NUMBER_OF_DICE).fill(UNROLLED_DIE),
+  duplicates: [],
 });
 

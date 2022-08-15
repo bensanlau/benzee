@@ -38,6 +38,23 @@ label {
   display: flex;
   place-items: center;
   justify-content: center;
+  position: relative;
+}
+
+label span {
+  color: #fff;
+  background: red;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.125rem;
+  display: flex;
+  place-items: center;
+  position: absolute;
+  bottom: 0.25rem;
+  right: -1rem;
 }
 
 input[type=radio]:checked + label {

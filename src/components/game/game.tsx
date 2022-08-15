@@ -37,9 +37,6 @@ export class Game {
 
     gameStore.set('roundstart', true);
     this.rolls = this.rolls - 1;
-
-    console.log(gameStore.get('benzeed'));
-    console.log(diceStore.get('duplicates'));
   }
 
   reset(): void {

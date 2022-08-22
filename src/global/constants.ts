@@ -101,4 +101,18 @@ export const BOARD: CategoryItem[] = [
     played: false,
     bonus: false,
   },
-]
+];
+
+export const KONAMI = [
+  'ArrowUp',
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowLeft',
+  'ArrowRight',
+  'b',
+  'a',
+  'Enter',
+];

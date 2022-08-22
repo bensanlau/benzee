@@ -80,6 +80,7 @@ declare namespace LocalJSX {
         "onSelectScore"?: (event: CustomEvent<string>) => void;
     }
     interface BzCheat {
+        "onEnableCheats"?: (event: CustomEvent<string>) => void;
     }
     interface BzDie {
         "die"?: DieItem;

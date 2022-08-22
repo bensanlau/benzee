@@ -14,6 +14,7 @@ export const gameStore = createStore({
   bonus_added: false,
   benzeed: false,
   godmode: false,
+  sv_cheats: false,
   rolls: NUMBER_OF_ROLLS,
   points: 0,
   lower_points: 0,

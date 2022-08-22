@@ -21,6 +21,11 @@ export class Game {
     this.scoreSelected = score.detail;
   }
 
+  @Listen('enableCheats')
+  handleCheatListen() {
+    this.saveToLocal();
+  }
+
   @Event() emitPlay: EventEmitter<string>;
   handleEmitPlay() {
     this.emitPlay.emit();
@@ -159,12 +164,16 @@ export class Game {
     }
   }
 
-  componentDidRender() {
+  saveToLocal() {
     localStorage.setItem('bz-data', JSON.stringify({
       game: gameStore,
       board: boardStore,
       dice: diceStore,
     }));
+  }
+
+  componentDidRender() {
+    this.saveToLocal();
   }
 
   render() {

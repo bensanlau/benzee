@@ -1,0 +1,15 @@
+form {
+  max-width: 300px;
+  margin: auto;
+  display: grid;
+  grid-gap: 0.5rem;
+  padding: 5rem;
+  background-color: #fff;
+  border-radius: 16px;
+  filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+}
+
+label {
+  display: block;
+  text-align: center;
+}

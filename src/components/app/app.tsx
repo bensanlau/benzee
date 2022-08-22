@@ -1,4 +1,4 @@
-import { Component, h, Host, State } from '@stencil/core';
+import { Component, h, Host, Listen, State } from '@stencil/core';
 import { gameStore, boardStore, diceStore } from '../../store/store';
 
 @Component({
@@ -7,7 +7,12 @@ import { gameStore, boardStore, diceStore } from '../../store/store';
   shadow: true,
 })
 export class App {
-  @State() name: string;
+  @State() allPlayed: boolean = false;
+
+  @Listen('emitPlay')
+  checkIfAllPlayed() {
+    this.allPlayed = boardStore.get('board').map(item => item.played).every(item => item === true);
+  }
 
   componentWillLoad() {
     const data = JSON.parse(localStorage.getItem('bz-data'));
@@ -28,23 +33,37 @@ export class App {
       });
     }
 
-    gameStore.onChange('name', () => {
-      this.name = gameStore.get('name');
-    });
+    this.checkIfAllPlayed();
   }
 
-  componentWillRender() {
-    this.name = gameStore.get('name');
+  reset() {
+    boardStore.reset();
+    diceStore.reset();
+    let name = gameStore.get('name');
+    gameStore.reset();
+    gameStore.set('name', name);
+
+    this.checkIfAllPlayed();
   }
 
   render() {
     return (
       <Host>
-        {!this.name ? (
-          <bz-name/>
+        {this.allPlayed ? (
+          <div class="end">
+            <h1>{gameStore.get('points')}</h1>
+            You have scored {gameStore.get('points')} points!
+            
+            <button onClick={() => this.reset()}>Play again</button>
+          </div>
         ) : (
-          <bz-game />
+          gameStore.get('name') ? (
+            <bz-game/>
+          ) : (
+            <bz-name/>
+          )
         )}
+        
       </Host>
     )
   }

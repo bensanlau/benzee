@@ -6,6 +6,7 @@ export interface CategoryItem {
   label: string;
   score: number;
   played: boolean;
+  bonus: boolean;
   value?: number;
 }
 
@@ -32,11 +33,9 @@ export class Category {
   }
 
   renderBonusBadge() {
-    const hasBadge = 
-      (gameStore.get('benzeed') && Object.keys(diceStore.get('duplicates')).length === 1)
-      ||
-      (gameStore.get('benzeed') && this.item.label !== 'benzee' && this.item.played);
-    
+    const hasBadge = (this.item.bonus) ||
+      (gameStore.get('benzeed') && !this.item.played && Object.keys(diceStore.get('duplicates')).length === 1);
+
     if (hasBadge) {
       return (<span>+50</span>);
     }

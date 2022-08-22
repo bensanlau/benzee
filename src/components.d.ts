@@ -86,6 +86,7 @@ declare namespace LocalJSX {
         "index"?: number;
     }
     interface BzGame {
+        "onEmitPlay"?: (event: CustomEvent<string>) => void;
     }
     interface BzName {
     }

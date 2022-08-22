@@ -14,7 +14,10 @@ export class Cheat {
   render() {
     return (
       <div class="godmode">
-        <input id="godmode" type="checkbox" onChange={() => this.handleGod()} />
+        <input id="godmode" type="checkbox"
+          checked={gameStore.get('godmode')}
+          onChange={() => this.handleGod()}
+        />
         <label htmlFor="godmode">God mode</label>
       </div>
     )

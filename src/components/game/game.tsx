@@ -1,4 +1,4 @@
-import { Component, h, State, Listen } from '@stencil/core';
+import { Component, h, State, Listen, Event, EventEmitter } from '@stencil/core';
 import { diceStore, boardStore, gameStore } from '../../store/store';
 import { NUMBER_OF_ROLLS, LOWER_TOTAL, LOWER_BONUS } from '../../global/constants';
 import { DieItem } from '../die/die';
@@ -19,6 +19,11 @@ export class Game {
   @Listen('selectScore')
   handleSelectScore(score: CustomEvent){
     this.scoreSelected = score.detail;
+  }
+
+  @Event() emitPlay: EventEmitter<string>;
+  handleEmitPlay() {
+    this.emitPlay.emit();
   }
 
   roll(): void {
@@ -51,9 +56,11 @@ export class Game {
 
   play(): void {
     boardStore.set('board', boardStore.get('board').map((category: CategoryItem) => {
+      const match = category.id === this.scoreSelected;
       return { 
         ...category,
-        played: category.id === this.scoreSelected ? true : category.played,
+        played: match ? true : category.played,
+        bonus: match && gameStore.get('benzeed') && this.getDuplicates(5) ? true : category.bonus,
       }
     }));
 
@@ -77,6 +84,7 @@ export class Game {
       gameStore.set('benzeed', true);
     }
 
+    this.handleEmitPlay();
     this.reset();
   }
 

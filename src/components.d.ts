@@ -8,9 +8,13 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { CategoryItem } from "./components/category/category";
 import { DieItem } from "./components/die/die";
 export namespace Components {
+    interface BzApp {
+    }
     interface BzCategory {
         "disabled": boolean;
         "item": CategoryItem;
+    }
+    interface BzCheat {
     }
     interface BzDie {
         "die": DieItem;
@@ -18,13 +22,27 @@ export namespace Components {
     }
     interface BzGame {
     }
+    interface BzName {
+    }
 }
 declare global {
+    interface HTMLBzAppElement extends Components.BzApp, HTMLStencilElement {
+    }
+    var HTMLBzAppElement: {
+        prototype: HTMLBzAppElement;
+        new (): HTMLBzAppElement;
+    };
     interface HTMLBzCategoryElement extends Components.BzCategory, HTMLStencilElement {
     }
     var HTMLBzCategoryElement: {
         prototype: HTMLBzCategoryElement;
         new (): HTMLBzCategoryElement;
+    };
+    interface HTMLBzCheatElement extends Components.BzCheat, HTMLStencilElement {
+    }
+    var HTMLBzCheatElement: {
+        prototype: HTMLBzCheatElement;
+        new (): HTMLBzCheatElement;
     };
     interface HTMLBzDieElement extends Components.BzDie, HTMLStencilElement {
     }
@@ -38,37 +56,60 @@ declare global {
         prototype: HTMLBzGameElement;
         new (): HTMLBzGameElement;
     };
+    interface HTMLBzNameElement extends Components.BzName, HTMLStencilElement {
+    }
+    var HTMLBzNameElement: {
+        prototype: HTMLBzNameElement;
+        new (): HTMLBzNameElement;
+    };
     interface HTMLElementTagNameMap {
+        "bz-app": HTMLBzAppElement;
         "bz-category": HTMLBzCategoryElement;
+        "bz-cheat": HTMLBzCheatElement;
         "bz-die": HTMLBzDieElement;
         "bz-game": HTMLBzGameElement;
+        "bz-name": HTMLBzNameElement;
     }
 }
 declare namespace LocalJSX {
+    interface BzApp {
+    }
     interface BzCategory {
         "disabled"?: boolean;
         "item"?: CategoryItem;
         "onSelectScore"?: (event: CustomEvent<string>) => void;
+    }
+    interface BzCheat {
+        "onEnableCheats"?: (event: CustomEvent<string>) => void;
     }
     interface BzDie {
         "die"?: DieItem;
         "index"?: number;
     }
     interface BzGame {
+        "onEmitPlay"?: (event: CustomEvent<string>) => void;
+    }
+    interface BzName {
     }
     interface IntrinsicElements {
+        "bz-app": BzApp;
         "bz-category": BzCategory;
+        "bz-cheat": BzCheat;
         "bz-die": BzDie;
         "bz-game": BzGame;
+        "bz-name": BzName;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "bz-app": LocalJSX.BzApp & JSXBase.HTMLAttributes<HTMLBzAppElement>;
             "bz-category": LocalJSX.BzCategory & JSXBase.HTMLAttributes<HTMLBzCategoryElement>;
+            "bz-cheat": LocalJSX.BzCheat & JSXBase.HTMLAttributes<HTMLBzCheatElement>;
             "bz-die": LocalJSX.BzDie & JSXBase.HTMLAttributes<HTMLBzDieElement>;
             "bz-game": LocalJSX.BzGame & JSXBase.HTMLAttributes<HTMLBzGameElement>;
+            "bz-name": LocalJSX.BzName & JSXBase.HTMLAttributes<HTMLBzNameElement>;
         }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, h, State, Listen } from '@stencil/core';
+import { Component, h, State, Listen, Event, EventEmitter } from '@stencil/core';
 import { diceStore, boardStore, gameStore } from '../../store/store';
 import { NUMBER_OF_ROLLS, LOWER_TOTAL, LOWER_BONUS } from '../../global/constants';
 import { DieItem } from '../die/die';
@@ -14,14 +14,21 @@ const generateNumber = () => {
   shadow: true,
 })
 export class Game {
-  @State() points: number = 0;
-  @State() lowerPoints: number = 0;
-  @State() rolls: number = NUMBER_OF_ROLLS;
   @State() scoreSelected: string;
 
   @Listen('selectScore')
   handleSelectScore(score: CustomEvent){
     this.scoreSelected = score.detail;
+  }
+
+  @Listen('enableCheats')
+  handleCheatListen() {
+    this.saveToLocal();
+  }
+
+  @Event() emitPlay: EventEmitter<string>;
+  handleEmitPlay() {
+    this.emitPlay.emit();
   }
 
   roll(): void {
@@ -36,12 +43,12 @@ export class Game {
     })));
 
     gameStore.set('roundstart', true);
-    this.rolls = this.rolls - 1;
+    gameStore.set('rolls', gameStore.get('rolls') - 1);
   }
 
   reset(): void {
-    this.rolls = NUMBER_OF_ROLLS;
     this.scoreSelected = null;
+    gameStore.set('rolls', NUMBER_OF_ROLLS);
     gameStore.set('roundstart', false);
     diceStore.reset();
     boardStore.set('board', boardStore.get('board').map((category: CategoryItem) => {
@@ -54,27 +61,35 @@ export class Game {
 
   play(): void {
     boardStore.set('board', boardStore.get('board').map((category: CategoryItem) => {
+      const match = category.id === this.scoreSelected;
       return { 
         ...category,
-        played: category.id === this.scoreSelected ? true : category.played,
+        played: match ? true : category.played,
+        bonus: match && gameStore.get('benzeed') && this.getDuplicates(5) ? true : category.bonus,
       }
     }));
 
     const category = Object.entries(boardStore.get('board')).find(item => item[1].id === this.scoreSelected)[1];
-    this.points = this.points + category.score;
+    gameStore.set('points', gameStore.get('points') + category.score);
+
     if (category.value) {
-      this.lowerPoints = this.lowerPoints + category.score;
+      gameStore.set('lower_points', gameStore.get('lower_points') + category.score);
     }
 
-    if (!gameStore.get('bonus_added') && this.lowerPoints >= LOWER_TOTAL) {
+    if (!gameStore.get('bonus_added') && gameStore.get('lower_points') >= LOWER_TOTAL) {
       gameStore.set('bonus_added', true);
-      this.points = this.points + LOWER_BONUS;
+      gameStore.set('points', gameStore.get('points') + LOWER_BONUS);
+    }
+
+    if (gameStore.get('benzeed') && this.getDuplicates(5)) {
+      gameStore.set('points', gameStore.get('points') + 50);
     }
 
     if (!gameStore.get('benzeed') && category.id === 'benzee' && category.score === 50) {
       gameStore.set('benzeed', true);
     }
 
+    this.handleEmitPlay();
     this.reset();
   }
 
@@ -149,16 +164,24 @@ export class Game {
     }
   }
 
-  handleGod() {
-    gameStore.set('godmode', !gameStore.get('godmode'));
+  saveToLocal() {
+    localStorage.setItem('bz-data', JSON.stringify({
+      game: gameStore,
+      board: boardStore,
+      dice: diceStore,
+    }));
+  }
+
+  componentDidRender() {
+    this.saveToLocal();
   }
 
   render() {
     return (
       <div>
         <header>
-          <h1>{this.points}</h1>
-          <em>Player name</em>
+          <h1>{gameStore.get('points')}</h1>
+          <em>{gameStore.get('name')}</em>
         </header>
 
         <main>
@@ -173,10 +196,10 @@ export class Game {
                 <span>+{LOWER_BONUS}</span>
               </label>
               <div>
-                {this.lowerPoints >= 63 ? (
+                {gameStore.get('lower_points') >= 63 ? (
                   <div>✅ +{LOWER_BONUS}</div>
                 ) : (
-                  <div><span>{this.lowerPoints}</span> / {LOWER_TOTAL}</div>
+                  <div><span>{gameStore.get('lower_points')}</span> / {LOWER_TOTAL}</div>
                 )}
               </div>
             </div>
@@ -191,8 +214,8 @@ export class Game {
 
             <button
               onClick={() => this.roll()}
-              disabled={this.rolls === 0}>
-              Roll ({this.rolls})
+              disabled={gameStore.get('rolls') === 0}>
+              Roll ({gameStore.get('rolls')})
             </button>
             <button
               disabled={!this.scoreSelected}
@@ -202,10 +225,7 @@ export class Game {
           </footer>
         </main>
 
-        <div class="godmode">
-          <input id="godmode" type="checkbox" onChange={() => this.handleGod()} />
-          <label htmlFor="godmode">God mode</label>
-        </div>
+        <bz-cheat />
       </div>
     );
   }

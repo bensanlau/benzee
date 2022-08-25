@@ -6,6 +6,7 @@ export interface CategoryItem {
   label: string;
   score: number;
   played: boolean;
+  bonus: boolean;
   value?: number;
 }
 
@@ -31,6 +32,15 @@ export class Category {
     this.category.style.setProperty('--grid-position', `${this.item.id}`);
   }
 
+  renderBonusBadge() {
+    const hasBadge = (this.item.bonus) ||
+      (gameStore.get('benzeed') && !this.item.played && Object.keys(diceStore.get('duplicates')).length === 1);
+
+    if (hasBadge) {
+      return (<span>+50</span>);
+    }
+  }
+
   render() {
     const { label, score, played } = this.item;
 
@@ -47,9 +57,7 @@ export class Category {
           />
         <label htmlFor={label.replace(' ', '-')}>
           {score}
-          {gameStore.get('benzeed') && Object.keys(diceStore.get('duplicates')).length === 1 ? (
-            <span>+50</span>
-          ) : null }
+          {this.renderBonusBadge()}
         </label>
       </Host>
     );

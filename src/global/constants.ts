@@ -11,6 +11,7 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     value: 1,
+    bonus: false,
   },
   {
     id: 'two',
@@ -18,6 +19,7 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     value: 2,
+    bonus: false,
   },
   {
     id: 'three',
@@ -25,6 +27,7 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     value: 3,
+    bonus: false,
   },
   {
     id: 'four',
@@ -32,13 +35,14 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     value: 4,
+    bonus: false,
   },
   {
     id: 'five',
     label: '5',
     score: null,
     played: false,
-    value: 5,
+    value: 5,bonus: false,
   },
   {
     id: 'six',
@@ -46,47 +50,69 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     value: 6,
+    bonus: false,
   },
   {
     id: 'three-kind',
     label: '3x',
     score: null,
     played: false,
+    bonus: false,
   },
   {
     id: 'four-kind',
     label: '4x',
     score: null,
     played: false,
+    bonus: false,
   },
   {
     id: 'fh',
     label: 'full house',
     score: null,
     played: false,
+    bonus: false,
   },
   {
     id: 'sm-st',
     label: 'small straight',
     score: null,
     played: false,
+    bonus: false,
   },
   {
     id: 'lg-st',
     label: 'large straight',
     score: null,
     played: false,
+    bonus: false,
   },
   {
     id: 'benzee',
     label: 'benzee',
     score: null,
     played: false,
+    bonus: false,
   },
   {
     id: 'chance',
     label: '?',
     score: null,
     played: false,
+    bonus: false,
   },
-]
+];
+
+export const KONAMI = [
+  'ArrowUp',
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowLeft',
+  'ArrowRight',
+  'b',
+  'a',
+  'Enter',
+];

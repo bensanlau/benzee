@@ -1,5 +1,10 @@
 header {
   text-align: center;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  margin-bottom: 0;
 }
 
 main {
@@ -69,11 +74,4 @@ section {
   flex-basis: 0;
   flex-grow: 1;
   flex-shrink: 1;
-}
-
-.godmode {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 1rem;
 }

@@ -17,4 +17,8 @@ body {
 .wrapper {
   max-width: 600px;
   margin: auto;
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  place-items: center;
 }

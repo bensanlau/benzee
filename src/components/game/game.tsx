@@ -218,15 +218,21 @@ export class Game {
 
             <div class="buttons">
               <button
+                class="button button--roll"
                 onClick={() => this.roll()}
                 disabled={gameStore.get('rolls') === 0}>
-                Roll ({gameStore.get('rolls')})
+                <span>Roll</span>
+                <span>{gameStore.get('rolls')}</span>
               </button>
-              <button
-                disabled={!this.scoreSelected}
-                onClick={() => this.play()}>
-                Play
-              </button>
+
+              {this.scoreSelected && (
+                <button
+                  class="button button--play"
+                  disabled={!this.scoreSelected}
+                  onClick={() => this.play()}>
+                  Play
+                </button>
+              )}
             </div>
           </footer>
         </main>

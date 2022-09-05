@@ -21,6 +21,5 @@
 }
 
 .die--locked {
-  background-color: #ccc;
-  border-color: red;
+  border-color: #fe7900;
 }

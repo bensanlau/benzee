@@ -108,6 +108,10 @@ input.played + label {
   text-shadow: 0 3px rgb(0 0 0 / 0.5);
 }
 
+input.played + label > span {
+  text-shadow: none;
+}
+
 span {
   text-align: center;
   /* text-shadow: 0 2px rgb(0 0 0 / 0.5); */

@@ -2,7 +2,7 @@ import { Component, h, State, Listen, Event, EventEmitter } from '@stencil/core'
 import { diceStore, boardStore, gameStore } from '../../store/store';
 import { NUMBER_OF_ROLLS, LOWER_TOTAL, LOWER_BONUS } from '../../global/constants';
 import { DieItem } from '../die/die';
-import { CategoryItem } from '../category/category';
+import { ComboItem } from '../combination/combo';
 
 const generateNumber = () => {
   return 1 + Math.floor(Math.random() * 6);
@@ -37,9 +37,9 @@ export class Game {
       value: gameStore.get('godmode') ? 6 : die.locked ? die.value : generateNumber(),
     })))
 
-    boardStore.set('board', boardStore.get('board').map((category: CategoryItem) => ({ 
-      ...category,
-      score: !category.played ? this.calculateScore(category) : category.score,
+    boardStore.set('board', boardStore.get('board').map((combo: ComboItem) => ({ 
+      ...combo,
+      score: !combo.played ? this.calculateScore(combo) : combo.score,
     })));
 
     gameStore.set('roundstart', true);
@@ -51,29 +51,29 @@ export class Game {
     gameStore.set('rolls', NUMBER_OF_ROLLS);
     gameStore.set('roundstart', false);
     diceStore.reset();
-    boardStore.set('board', boardStore.get('board').map((category: CategoryItem) => {
+    boardStore.set('board', boardStore.get('board').map((combo: ComboItem) => {
       return {
-        ...category,
-        score: !category.played ? null : category.score,
+        ...combo,
+        score: !combo.played ? null : combo.score,
       }
     }));
   }
 
   play(): void {
-    boardStore.set('board', boardStore.get('board').map((category: CategoryItem) => {
-      const match = category.id === this.scoreSelected;
+    boardStore.set('board', boardStore.get('board').map((combo: ComboItem) => {
+      const match = combo.id === this.scoreSelected;
       return { 
-        ...category,
-        played: match ? true : category.played,
-        bonus: match && gameStore.get('benzeed') && this.getDuplicates(5) ? true : category.bonus,
+        ...combo,
+        played: match ? true : combo.played,
+        bonus: match && gameStore.get('benzeed') && this.getDuplicates(5) ? true : combo.bonus,
       }
     }));
 
-    const category = Object.entries(boardStore.get('board')).find(item => item[1].id === this.scoreSelected)[1];
-    gameStore.set('points', gameStore.get('points') + category.score);
+    const combination = Object.entries(boardStore.get('board')).find(item => item[1].id === this.scoreSelected)[1];
+    gameStore.set('points', gameStore.get('points') + combination.score);
 
-    if (category.value) {
-      gameStore.set('lower_points', gameStore.get('lower_points') + category.score);
+    if (combination.value) {
+      gameStore.set('lower_points', gameStore.get('lower_points') + combination.score);
     }
 
     if (!gameStore.get('bonus_added') && gameStore.get('lower_points') >= LOWER_TOTAL) {
@@ -85,7 +85,7 @@ export class Game {
       gameStore.set('points', gameStore.get('points') + 50);
     }
 
-    if (!gameStore.get('benzeed') && category.id === 'benzee' && category.score === 50) {
+    if (!gameStore.get('benzeed') && combination.id === 'benzee' && combination.score === 50) {
       gameStore.set('benzeed', true);
     }
 
@@ -119,19 +119,21 @@ export class Game {
     set.map((item, index) => {
       if (index + 1 <= set.length) {
         tally += set[index + 1] - item === 1 ? 1 : 0;
+      } else {
+        tally = 0;
       }
     })
 
     return tally + 1 >= seqLength;
   }
 
-  calculateScore(category: CategoryItem): number {
+  calculateScore(combo: ComboItem): number {
     diceStore.set('duplicates', diceStore.get('dice').reduce((acc, {value}) => (
       {...acc, [value]: (acc[value] || 0) + 1}
     ), {}));
 
     if (gameStore.get('godmode')) {
-      switch(category.id) {
+      switch(combo.id) {
         case 'benzee': return 50;
         case 'chance':
         case 'three-kind':
@@ -140,11 +142,11 @@ export class Game {
         case 'sm-st': return 30;
         case 'lg-st': return 40;
         default:
-          return category.value * 5;
+          return combo.value * 5;
       }
     }
 
-    switch(category.id) {
+    switch(combo.id) {
       case 'benzee':
         return this.getDuplicates(5) ? 50 : 0;
       case 'chance':
@@ -160,7 +162,7 @@ export class Game {
         case 'lg-st':
         return this.calculateStraight(5) ? 40 : 0;
       default:
-        return this.getDuplicatesByValue(category.value);
+        return this.getDuplicatesByValue(combo.value);
     }
   }
 
@@ -186,10 +188,11 @@ export class Game {
 
         <main>
           <section>
-            {boardStore.get('board').map((item: CategoryItem) =>
-              <bz-category item={item} />
+            {boardStore.get('board').map((combo: ComboItem) =>
+              <bz-combo item={combo} />
             )}
 
+            {/*
             <div class="bonus">
               <label>
                 Section bonus
@@ -203,6 +206,7 @@ export class Game {
                 )}
               </div>
             </div>
+                */}
           </section>
 
           <footer>
@@ -212,16 +216,18 @@ export class Game {
               )}
             </div>
 
-            <button
-              onClick={() => this.roll()}
-              disabled={gameStore.get('rolls') === 0}>
-              Roll ({gameStore.get('rolls')})
-            </button>
-            <button
-              disabled={!this.scoreSelected}
-              onClick={() => this.play()}>
-              Play
-            </button>
+            <div class="buttons">
+              <button
+                onClick={() => this.roll()}
+                disabled={gameStore.get('rolls') === 0}>
+                Roll ({gameStore.get('rolls')})
+              </button>
+              <button
+                disabled={!this.scoreSelected}
+                onClick={() => this.play()}>
+                Play
+              </button>
+            </div>
           </footer>
         </main>
 

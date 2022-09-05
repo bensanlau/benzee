@@ -8,17 +8,25 @@
   Any global CSS variables should also be applied here.
 */
 
+:root {
+  --c-blue-primary: #05b2ff;
+  --c-blue-secondary: #02a2e9;
+  --c-blue-tertiary: #0c6b8c;
+  --c-blue-dark: #1192d3;
+}
+
 body {
-  margin: 0px;
-  padding: 0px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  margin: 0;
+  padding: 0;
+  background-color: var(--c-blue-primary);
+  font-family: 'Passion One', cursive;
 }
 
 .wrapper {
-  max-width: 600px;
+  /* max-width: 600px; */
   margin: auto;
   display: flex;
-  min-height: 100vh;
-  justify-content: center;
-  place-items: center;
+  /* min-height: 100vh; */
+  /* justify-content: center; */
+  /* place-items: center; */
 }

@@ -5,16 +5,16 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { CategoryItem } from "./components/category/category";
+import { ComboItem } from "./components/combination/combo";
 import { DieItem } from "./components/die/die";
 export namespace Components {
     interface BzApp {
     }
-    interface BzCategory {
-        "disabled": boolean;
-        "item": CategoryItem;
-    }
     interface BzCheat {
+    }
+    interface BzCombo {
+        "disabled": boolean;
+        "item": ComboItem;
     }
     interface BzDie {
         "die": DieItem;
@@ -32,17 +32,17 @@ declare global {
         prototype: HTMLBzAppElement;
         new (): HTMLBzAppElement;
     };
-    interface HTMLBzCategoryElement extends Components.BzCategory, HTMLStencilElement {
-    }
-    var HTMLBzCategoryElement: {
-        prototype: HTMLBzCategoryElement;
-        new (): HTMLBzCategoryElement;
-    };
     interface HTMLBzCheatElement extends Components.BzCheat, HTMLStencilElement {
     }
     var HTMLBzCheatElement: {
         prototype: HTMLBzCheatElement;
         new (): HTMLBzCheatElement;
+    };
+    interface HTMLBzComboElement extends Components.BzCombo, HTMLStencilElement {
+    }
+    var HTMLBzComboElement: {
+        prototype: HTMLBzComboElement;
+        new (): HTMLBzComboElement;
     };
     interface HTMLBzDieElement extends Components.BzDie, HTMLStencilElement {
     }
@@ -64,8 +64,8 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "bz-app": HTMLBzAppElement;
-        "bz-category": HTMLBzCategoryElement;
         "bz-cheat": HTMLBzCheatElement;
+        "bz-combo": HTMLBzComboElement;
         "bz-die": HTMLBzDieElement;
         "bz-game": HTMLBzGameElement;
         "bz-name": HTMLBzNameElement;
@@ -74,13 +74,13 @@ declare global {
 declare namespace LocalJSX {
     interface BzApp {
     }
-    interface BzCategory {
-        "disabled"?: boolean;
-        "item"?: CategoryItem;
-        "onSelectScore"?: (event: CustomEvent<string>) => void;
-    }
     interface BzCheat {
         "onEnableCheats"?: (event: CustomEvent<string>) => void;
+    }
+    interface BzCombo {
+        "disabled"?: boolean;
+        "item"?: ComboItem;
+        "onSelectScore"?: (event: CustomEvent<string>) => void;
     }
     interface BzDie {
         "die"?: DieItem;
@@ -93,8 +93,8 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "bz-app": BzApp;
-        "bz-category": BzCategory;
         "bz-cheat": BzCheat;
+        "bz-combo": BzCombo;
         "bz-die": BzDie;
         "bz-game": BzGame;
         "bz-name": BzName;
@@ -105,8 +105,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "bz-app": LocalJSX.BzApp & JSXBase.HTMLAttributes<HTMLBzAppElement>;
-            "bz-category": LocalJSX.BzCategory & JSXBase.HTMLAttributes<HTMLBzCategoryElement>;
             "bz-cheat": LocalJSX.BzCheat & JSXBase.HTMLAttributes<HTMLBzCheatElement>;
+            "bz-combo": LocalJSX.BzCombo & JSXBase.HTMLAttributes<HTMLBzComboElement>;
             "bz-die": LocalJSX.BzDie & JSXBase.HTMLAttributes<HTMLBzDieElement>;
             "bz-game": LocalJSX.BzGame & JSXBase.HTMLAttributes<HTMLBzGameElement>;
             "bz-name": LocalJSX.BzName & JSXBase.HTMLAttributes<HTMLBzNameElement>;

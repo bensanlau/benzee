@@ -1,12 +1,23 @@
 :host {
   display: block;
+  /* flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1; */
 }
 
 .die {
-  border: solid;
-  padding: 20px;
+  border: 3px solid #0b5678;
+  background-color: #01a2e8;
+  box-shadow: 0px 3px 3px #073950, inset 0 4px 4px #026692;
+  border-radius: 16px;
   display: flex;
   place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  justify-content: center;
 }
 
 .die--locked {

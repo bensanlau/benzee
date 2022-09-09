@@ -178,6 +178,10 @@ export class Game {
     this.saveToLocal();
   }
 
+  rollable() {
+    return diceStore.get('dice').every((die: DieItem) => die.value !== null);
+  }
+
   render() {
     return (
       <div>
@@ -225,7 +229,7 @@ export class Game {
                 <span>{gameStore.get('rolls')}</span>
               </button>
 
-              {this.scoreSelected && (
+              {this.rollable() && (
                 <button
                   class="button button--play"
                   disabled={!this.scoreSelected}

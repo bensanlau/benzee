@@ -1,0 +1,120 @@
+:host {
+  grid-area: var(--grid-position);
+  color: #fff;
+  /* padding: 0 0.5rem; */
+  padding: 0.3125rem 0.5rem 0.3125rem 0.25rem;
+  /* padding-left: 0.5rem; */
+  /* padding-right: 0.5rem; */
+}
+
+:host:nth-child(even) {
+  background-color: var(--c-blue-primary);
+}
+
+:host:nth-child(-n+6) {
+  padding-left: 0.5rem;
+  padding-right: 0.25rem;
+}
+
+.combo {
+  max-width: 20rem;
+  /* margin-left: 1rem; */
+  display: grid;
+  align-items: center;
+  /* grid-template-columns: repeat(3, minmax(0, 1fr)); */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 4.33rem);
+}
+
+:host:nth-child(-n+6) .combo {
+  /* margin-right: 1rem; */
+  margin-left: auto;
+}
+
+.label {
+  /* background-color: orange; */
+  background: radial-gradient(#fdd431, #fea721 95%);
+  border-radius: 8px;
+  border-bottom: 0.3125rem inset #fe7e0b;
+  padding-top: 0.3125rem;
+  margin-right: 0.25rem;
+  box-sizing: border-box;
+  color: black;
+  overflow: hidden;
+  width: 3.2rem;
+  height: 3.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  padding: 10px;
+  width: 50px;
+  height: 50px;
+}
+
+input[type=radio] {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  opacity: 0;
+}
+
+label {
+  background-color: var(--c-blue-dark);
+  background-color: #85f6fd;
+  border-radius: 8px;
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  position: relative;
+  margin: auto;
+  width: 3.5rem;
+  height: 3.2rem;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: #54e3ec;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+label span {
+  color: #fff;
+  background: red;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.125rem;
+  display: flex;
+  place-items: center;
+  position: absolute;
+  bottom: 0.25rem;
+  right: -1rem;
+}
+
+input[type=radio]:checked + label {
+  background: radial-gradient(#fff, #85f6fd 95%);
+  color: #0091dd;
+}
+
+input.played + label {
+  background-color: #0091dd;
+  border-width: 2px;
+  color: #fff;
+  text-shadow: 0 3px rgb(0 0 0 / 0.5);
+}
+
+input.played + label > span {
+  text-shadow: none;
+}
+
+span {
+  text-align: center;
+  /* text-shadow: 0 2px rgb(0 0 0 / 0.5); */
+  /* padding: 0 0.5rem; */
+  padding-left: 0.5rem;
+}

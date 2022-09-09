@@ -3,8 +3,8 @@ export const NUMBER_OF_DICE: number = 5;
 export const LOWER_TOTAL: number = 63;
 export const LOWER_BONUS: number = 35;
 
-import { CategoryItem } from "../components/category/category";
-export const BOARD: CategoryItem[] = [
+import { ComboItem } from "../components/combination/combo";
+export const BOARD: ComboItem[] = [
   {
     id: 'one',
     label: '1',
@@ -12,6 +12,7 @@ export const BOARD: CategoryItem[] = [
     played: false,
     value: 1,
     bonus: false,
+    description: 'one',
   },
   {
     id: 'two',
@@ -20,6 +21,7 @@ export const BOARD: CategoryItem[] = [
     played: false,
     value: 2,
     bonus: false,
+    description: 'two',
   },
   {
     id: 'three',
@@ -28,6 +30,7 @@ export const BOARD: CategoryItem[] = [
     played: false,
     value: 3,
     bonus: false,
+    description: 'three',
   },
   {
     id: 'four',
@@ -36,6 +39,7 @@ export const BOARD: CategoryItem[] = [
     played: false,
     value: 4,
     bonus: false,
+    description: 'four',
   },
   {
     id: 'five',
@@ -43,6 +47,7 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     value: 5,bonus: false,
+    description: 'five',
   },
   {
     id: 'six',
@@ -51,6 +56,7 @@ export const BOARD: CategoryItem[] = [
     played: false,
     value: 6,
     bonus: false,
+    description: 'six',
   },
   {
     id: 'three-kind',
@@ -58,6 +64,7 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     bonus: false,
+    description: 'three of a kind',
   },
   {
     id: 'four-kind',
@@ -65,6 +72,7 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     bonus: false,
+    description: 'four of a kind',
   },
   {
     id: 'fh',
@@ -72,6 +80,7 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     bonus: false,
+    description: 'full house',
   },
   {
     id: 'sm-st',
@@ -79,6 +88,7 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     bonus: false,
+    description: 'small straight',
   },
   {
     id: 'lg-st',
@@ -86,6 +96,7 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     bonus: false,
+    description: 'large straight',
   },
   {
     id: 'benzee',
@@ -93,6 +104,7 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     bonus: false,
+    description: 'benzee',
   },
   {
     id: 'chance',
@@ -100,6 +112,7 @@ export const BOARD: CategoryItem[] = [
     score: null,
     played: false,
     bonus: false,
+    description: 'chance',
   },
 ];
 
